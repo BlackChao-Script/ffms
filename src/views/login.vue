@@ -1,9 +1,10 @@
 <script setup lang='ts'>
 import LoginForm from '@/components/login/LoginForm.vue'
 import RegisterForm from '@/components/login/RegisterForm.vue'
+import { LoginDataType, RegisterDateType } from '@/types/index'
 import { reactive, ref } from 'vue-demi';
 
-const LoginData = reactive<any>({
+const LoginData = reactive<LoginDataType>({
   loginUser: {
     username: '',
     password: ''
@@ -20,7 +21,7 @@ const LoginData = reactive<any>({
     ],
   }
 })
-const registerDate = reactive<any>({
+const registerDate = reactive<RegisterDateType>({
   registerUser: {
     username: '',
     password: ''
