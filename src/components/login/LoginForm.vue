@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 import { ref } from 'vue-demi';
+import { userLogin } from '@/api/user'
+import { ElMessage } from 'element-plus'
 
 const { loginUser = {}, rules = {} } = defineProps({
   loginUser: Object,
@@ -9,13 +11,20 @@ const { loginUser = {}, rules = {} } = defineProps({
 const loginForm = ref<any>(null)
 
 const handleLogin = () => {
-  loginForm.value.validate((valid: boolean) => {
-    if (valid) {
-      alert("submit!");
-    } else {
-      console.log("error submit!!");
-      return false;
+  loginForm.value.validate(async (valid: boolean) => {
+    if (!valid) return
+    try {
+      const res = await userLogin(loginUser.username, loginUser.password)
+      window.sessionStorage.setItem('token', res.data.data.token)
+      ElMessage({
+        message: '登录成功',
+        type: 'success',
+      })
+    } catch (err) {
+      ElMessage.error('账号或密码错误')
     }
+
+
   })
 }
 </script>
@@ -29,14 +38,14 @@ const handleLogin = () => {
     class="loginForm sign-in-form"
   >
     <el-form-item label="用户名" prop="username">
-      <el-input v-model="loginUser.username" placeholder="Enter Username..."></el-input>
+      <el-input v-model="loginUser.username" placeholder="请输入用户名"></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input v-model="loginUser.password" type="password" placeholder="Enter Password..."></el-input>
+      <el-input show-password v-model="loginUser.password" type="password" placeholder="请输入密码"></el-input>
     </el-form-item>
 
     <el-form-item>
-      <el-button @click="handleLogin" type="primary" class="submit-btn">提交</el-button>
+      <el-button color="#d3e4cd" @click="handleLogin" type="primary" class="submit-btn">登录</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -51,7 +60,7 @@ const handleLogin = () => {
 }
 
 .submit-btn {
-  width: 100%;
+  width: 20%;
 }
 .tiparea {
   text-align: right;

@@ -14,13 +14,13 @@ const router = createRouter({
   routes,
 })
 //! 路由导航守卫
-// router.beforeEach((to, from, next) => {
-//   const islogin = window.sessionStorage.getItem('token') ? true : false
-//   if (to.path == '/login') {
-//     next()
-//   } else {
-//     islogin ? next() : next('/')
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const islogin = window.sessionStorage.getItem('token') ? true : false
+  if (to.path == '/login') {
+    next()
+  } else {
+    islogin ? next() : next('/')
+  }
+})
 
 export default router

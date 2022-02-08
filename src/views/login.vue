@@ -1,8 +1,8 @@
 <script setup lang='ts'>
+import { reactive, ref } from 'vue-demi';
 import LoginForm from '@/components/login/LoginForm.vue'
 import RegisterForm from '@/components/login/RegisterForm.vue'
 import { LoginDataType, RegisterDateType } from '@/types/index'
-import { reactive, ref } from 'vue-demi';
 
 const LoginData = reactive<LoginDataType>({
   loginUser: {
@@ -101,7 +101,7 @@ const signUpMode = ref<boolean>(false)
   top: 50%;
   transform: translate(-50%, -50%);
   left: 75%;
-  width: 44%;
+  width: 30%;
   transition: 1s 0.7s ease-in-out;
   display: grid;
   grid-template-columns: 1fr;
@@ -175,7 +175,7 @@ const signUpMode = ref<boolean>(false)
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  background-image: linear-gradient(-45deg, #d3e4cd 0%, #fff5eb 100%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
