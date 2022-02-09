@@ -6,8 +6,8 @@ import { LoginDataType, RegisterDateType } from '@/types/index'
 
 const LoginData = reactive<LoginDataType>({
   loginUser: {
-    username: '',
-    password: ''
+    username: '黄志克',
+    password: '123456'
   },
   rules: {
     username: [
@@ -79,7 +79,7 @@ const signUpMode = ref<boolean>(false)
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .container {
   position: relative;
   width: 100%;

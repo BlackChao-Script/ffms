@@ -1,12 +1,14 @@
 <script setup lang='ts'>
-import { ref } from 'vue-demi';
+import { ref } from 'vue-demi'
 import { userLogin } from '@/api/user'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 const { loginUser = {}, rules = {} } = defineProps({
   loginUser: Object,
   rules: Object
 })
+const router = useRouter()
 
 const loginForm = ref<any>(null)
 
@@ -20,11 +22,10 @@ const handleLogin = () => {
         message: '登录成功',
         type: 'success',
       })
+      router.push('/home')
     } catch (err) {
       ElMessage.error('账号或密码错误')
     }
-
-
   })
 }
 </script>
@@ -50,7 +51,7 @@ const handleLogin = () => {
   </el-form>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .loginForm {
   margin-top: 20px;
   background-color: #fff;

@@ -1,31 +1,30 @@
-@import './base.scss';
-
 // 主题色
-$primary: #d3e4cd;
+@primary: #d3e4cd;
 // 背景色
-$bc: #fff5eb;
+@bc: #fff5eb;
+@b1c: #99a799;
 // 字体色
-$fc: #fff;
+@fc: #fff;
 
 // 背景图片地址大小
-@mixin bgc($url) {
-  background-image: url($url);
+.bgc(@url) {
+  background-image: url(@url);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
 // 字体大小颜色
-@mixin fsc($size, $color: $fc) {
+.fsc(@size, @color: @fc) {
   font-size: $size;
-  color: $color;
+  color: @color;
 }
 // flex布局与子元素垂直居中
-@mixin fja {
+.fja {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 // 定位上下左右居中
-@mixin center {
+.center {
   position: absolute;
   top: 50%;
   left: 50%;

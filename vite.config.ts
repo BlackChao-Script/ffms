@@ -9,6 +9,17 @@ import { resolve } from 'path'
 
 export default defineConfig({
   base: './',
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+        additionalData: `@import "${resolve(
+          __dirname,
+          'src/style/mixin.less'
+        )}";`,
+      },
+    },
+  },
   plugins: [
     vue(),
     ElementPlus({ useSource: true }),
