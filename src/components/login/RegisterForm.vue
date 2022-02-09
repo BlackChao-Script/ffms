@@ -12,18 +12,19 @@ const handleRegister = () => {
   registerForm.value.validate((valid: boolean) => {
     if (!valid) return
     try {
-      userRegister(registerUser.username, registerUser.password)
+      userRegister(registerUser.username, registerUser.password, registerUser.type)
       ElMessage({
         message: '注册成功',
         type: 'success',
       })
+      registerUser.username = ''
+      registerUser.password = ''
     } catch (err) {
       ElMessage.error('注册失败')
     }
   })
 }
 </script>
-
 <template>
   <el-form
     ref="registerForm"
@@ -33,7 +34,7 @@ const handleRegister = () => {
     class="registerForm sign-up-form"
   >
     <el-form-item label="用户名" prop="username">
-      <el-input v-model="registerUser.name" placeholder="请输入用户名"></el-input>
+      <el-input v-model="registerUser.username" placeholder="请输入用户名"></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-input show-password v-model="registerUser.password" type="password" placeholder="请输入密码"></el-input>

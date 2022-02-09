@@ -27,14 +27,12 @@ const store = useStore()
       text-color="#fff"
       :router="true"
     >
-      <!-- 仪表盘 -->
       <el-menu-item index="/home/systemIntroduction">
         <el-icon>
           <stopwatch />
         </el-icon>
         <span>首页</span>
       </el-menu-item>
-      <!-- 博文 -->
       <el-sub-menu index="2">
         <template #title>
           <el-icon>

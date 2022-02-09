@@ -12,13 +12,14 @@ export const userLogin = (name: String, password: String) => {
   })
 }
 //! 注册
-export const userRegister = (name: String, password: String) => {
+export const userRegister = (name: String, password: String, type: String) => {
   return request({
     method: 'post',
     url: '/ffms/user/register',
     data: {
       name,
       password,
+      type,
     },
   })
 }

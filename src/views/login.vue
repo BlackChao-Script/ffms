@@ -6,15 +6,14 @@ import { LoginDataType, RegisterDateType } from '@/types/index'
 
 const LoginData = reactive<LoginDataType>({
   loginUser: {
-    username: '黄志克',
-    password: '123456'
+    username: '',
+    password: ''
   },
   rules: {
     username: [
       { required: true, message: '请输入用户名', trigger: 'blur' },
-      { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' },
+      { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' },
     ],
-    //* 验证密码是否合法
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' },
@@ -24,14 +23,14 @@ const LoginData = reactive<LoginDataType>({
 const registerDate = reactive<RegisterDateType>({
   registerUser: {
     username: '',
-    password: ''
+    password: '',
+    type: '家庭成员'
   },
   registerRules: {
     username: [
       { required: true, message: '请输入用户名', trigger: 'blur' },
-      { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' },
+      { min: 2, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' },
     ],
-    //* 验证密码是否合法
     password: [
       { required: true, message: '请输入密码', trigger: 'blur' },
       { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' },

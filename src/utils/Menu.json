@@ -1,0 +1,20 @@
+[
+  {
+    "authName": "首页",
+    "children": "",
+    "id": 101,
+    "path": "homePage"
+  },
+  {
+    "authName": "银行账户",
+    "children": [
+      {
+        "authName": "账户列表",
+        "id": 103,
+        "path": "accountList"
+      }
+    ],
+    "id": 102,
+    "path": "bankAccount"
+  }
+]

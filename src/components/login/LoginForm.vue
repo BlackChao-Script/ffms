@@ -9,15 +9,14 @@ const { loginUser = {}, rules = {} } = defineProps({
   rules: Object
 })
 const router = useRouter()
-
 const loginForm = ref<any>(null)
-
 const handleLogin = () => {
   loginForm.value.validate(async (valid: boolean) => {
     if (!valid) return
     try {
       const res = await userLogin(loginUser.username, loginUser.password)
       window.sessionStorage.setItem('token', res.data.data.token)
+      window.sessionStorage.setItem('username', res.data.data.name)
       ElMessage({
         message: '登录成功',
         type: 'success',

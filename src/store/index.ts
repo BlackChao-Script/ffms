@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useStore = defineStore({
-  id: '1',
+  id: 'indexStore',
   state: () => ({
     asideOpen: true,
   }),
