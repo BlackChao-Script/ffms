@@ -6,8 +6,8 @@ import { LoginDataType, RegisterDateType } from '@/types/index'
 
 const LoginData = reactive<LoginDataType>({
   loginUser: {
-    username: '',
-    password: ''
+    username: '黄志克',
+    password: '123456'
   },
   rules: {
     username: [

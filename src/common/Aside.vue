@@ -1,13 +1,33 @@
 <script setup lang='ts'>
-import {
-  Stopwatch,
-  Folder,
-  Document,
-  DocumentChecked,
-} from '@element-plus/icons-vue'
 import { useStore } from '@/store'
+import { getMenuData } from '@/api/menu'
+import { onMounted, ref } from 'vue-demi'
 
 const store = useStore()
+const menuList = ref<Array<any>>([])
+const menuListChildren = ref<Array<any>>([])
+const menuListIcon = ref<Array<string>>(['user', 'setting', 'shop', 'tickets'])
+const menuListChildrenIcon = ref<Array<string>>(['suitcase', 'goblet'])
+
+const getMenu = async () => {
+  const res = await getMenuData()
+  for (const i of res.data) {
+    if (i.children == null) {
+      menuList.value.push(i)
+    } else {
+      menuListChildren.value.push(i)
+    }
+  }
+}
+const saveNavState = (path: string) => {
+  window.sessionStorage.setItem('path', path)
+}
+
+store.changPath()
+
+onMounted(() => {
+  getMenu()
+})
 </script>
 
 <template>
@@ -21,43 +41,41 @@ const store = useStore()
     <el-menu
       :collapse="!store.asideOpen"
       :collapse-transition="false"
-      active-text-color="#fff5eb"
+      active-text-color="#99a799"
       background-color="#d3e4cd"
       class="el-menu-vertical-demo"
       text-color="#fff"
       :router="true"
+      :default-active="store.path"
+      :default-openeds="['103', '104']"
     >
-      <el-menu-item index="/home/systemIntroduction">
+      <el-menu-item
+        :index="'/home' + item.path"
+        v-for="(item,index) in menuList"
+        :key="item.id"
+        @click="saveNavState('/home' + item.path)"
+      >
         <el-icon>
-          <stopwatch />
+          <component :is="menuListIcon[index]"></component>
         </el-icon>
-        <span>首页</span>
+        <span>{{ item.authName }}</span>
       </el-menu-item>
-      <el-sub-menu index="2">
+      <el-sub-menu :index="item.id + ''" v-for="(item,index) in menuListChildren" :key="item.id">
         <template #title>
           <el-icon>
-            <folder />
+            <component :is="menuListChildrenIcon[index]"></component>
           </el-icon>
-          <span>博文</span>
+          <span>{{ item.authName }}</span>
         </template>
-        <el-menu-item-group>
-          <el-menu-item index="/home/blogadmin">
-            <template #title>
-              <el-icon>
-                <document />
-              </el-icon>
-              <span>博文文件管理</span>
-            </template>
-          </el-menu-item>
-          <el-menu-item index="/home/blogadmindet">
-            <template #title>
-              <el-icon>
-                <document-checked />
-              </el-icon>
-              <span>博文详细管理</span>
-            </template>
-          </el-menu-item>
-        </el-menu-item-group>
+        <el-menu-item
+          :index="'/home' + subItem.path"
+          v-for="subItem in item.children"
+          :key="subItem.id"
+        >
+          <template #title>
+            <span>{{ subItem.authName }}</span>
+          </template>
+        </el-menu-item>
       </el-sub-menu>
     </el-menu>
   </el-aside>

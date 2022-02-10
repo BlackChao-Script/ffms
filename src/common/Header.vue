@@ -5,15 +5,19 @@ import {
   FullScreen,
 } from '@element-plus/icons-vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import screenfull from 'screenfull'
-import { onMounted, ref } from 'vue-demi'
+import { onMounted, ref, watch } from 'vue-demi'
 
 const store = useStore()
 const router = useRouter()
+const route = useRoute()
 const username = ref<String | any>('')
+const breadcrumbList = ref<Array<any> | any>([])
+
 const nextLogin = () => {
   router.push('/')
+  location.reload()
   window.sessionStorage.removeItem('token')
 }
 const clickFull = () => {
@@ -21,6 +25,13 @@ const clickFull = () => {
     screenfull.toggle()
   }
 }
+const initBreadcrumbList = () => {
+  breadcrumbList.value = route.matched[1].path.replace('/home/', '')
+}
+
+watch(route, () => {
+  initBreadcrumbList()
+}, { deep: true, immediate: true })
 
 onMounted(() => {
   username.value = window.sessionStorage.getItem('username')
@@ -42,7 +53,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="header_tag">2</div>
+    <div class="header_tag">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>home</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ breadcrumbList }}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
 
     <div class="header_utils">
       <div class="utils_full">
@@ -84,6 +100,8 @@ onMounted(() => {
   }
   .header_tag {
     width: 80%;
+    display: flex;
+    align-items: center;
   }
   .header_utils {
     width: 15%;

@@ -23,3 +23,13 @@ export const userRegister = (name: String, password: String, type: String) => {
     },
   })
 }
+
+//! 根据家庭成员id展示家庭成员
+export const findUserById = (id: string) => {
+  return request({
+    url: 'ffms/user/findUserById',
+    params: {
+      id,
+    },
+  })
+}
