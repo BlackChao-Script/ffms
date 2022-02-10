@@ -12,17 +12,16 @@ import { onMounted, ref } from 'vue-demi'
 const store = useStore()
 const router = useRouter()
 const username = ref<String | any>('')
-
 const nextLogin = () => {
   router.push('/')
   window.sessionStorage.removeItem('token')
 }
-
 const clickFull = () => {
   if (screenfull.isEnabled) {
     screenfull.toggle()
   }
 }
+
 onMounted(() => {
   username.value = window.sessionStorage.getItem('username')
 })
