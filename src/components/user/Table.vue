@@ -5,14 +5,11 @@ const props = defineProps({
   loading: Boolean
 })
 
-const em = defineEmits(['updateUser', 'cancelAccountUser'])
+const em = defineEmits(['updateUser', 'cancelAccountUser', 'recoverUser'])
 
-const updateUser = (data: any) => {
-  em('updateUser', data)
-}
-const cancelAccountUser = (data: any) => {
-  em('cancelAccountUser', data)
-}
+const updateUser = (data: any) => em('updateUser', data)
+const cancelAccountUser = (id: string) => em('cancelAccountUser', id)
+const recoverUser = (id: string) => em('recoverUser', id)
 
 </script>
 
@@ -52,7 +49,13 @@ const cancelAccountUser = (data: any) => {
     <el-table-column label="操作">
       <template #default="scope">
         <el-button color="#d3e4cd" style="color: white" @click="updateUser(scope.row)">编辑</el-button>
-        <el-button @click="cancelAccountUser(scope.row.id)" type="warning" style="color: white">注销</el-button>
+        <el-button
+          v-if="scope.row.status == 1"
+          @click="cancelAccountUser(scope.row.id)"
+          type="warning"
+          style="color: white"
+        >注销</el-button>
+        <el-button v-else type="success" @click="recoverUser(scope.row.id)" style="color: white">恢复</el-button>
       </template>
     </el-table-column>
   </el-table>

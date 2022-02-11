@@ -26,9 +26,8 @@ export const userRegister = (name: String, password: String, type: String) => {
 //! 展示家庭成员
 export const getUserList = (pageNum: string, pageSize: string) => {
   return request({
-    method: 'post',
     url: '/ffms/user/listUser',
-    data: {
+    params: {
       pageNum,
       pageSize,
     },
@@ -39,6 +38,13 @@ export const cancelAccount = (id: string) => {
   return request({
     method: 'put',
     url: `/ffms/user/cancelAccount/${id}`,
+  })
+}
+//! 恢复家庭成员
+export const recover = (id: string) => {
+  return request({
+    method: 'put',
+    url: `/ffms/user/recover/${id}`,
   })
 }
 //! 更新家庭成员数据

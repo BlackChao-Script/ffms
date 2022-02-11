@@ -21,7 +21,7 @@ const handleCurrentChange = (val: number) => {
     :page-sizes="[3, 5, 10]"
     :page-size="pageData.pageSize"
     layout="sizes, prev, pager, next"
-    :total="5"
+    :total="pageData.total"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   ></el-pagination>
