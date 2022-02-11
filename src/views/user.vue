@@ -32,11 +32,11 @@ const UserDataFormRules = reactive<UserDataFormRulesType>({
       trigger: 'blur',
     }
   ],
-  type: [
+  password: [
     {
       required: true,
-      message: '请选择权限',
-      trigger: 'change',
+      message: '请输入密码',
+      trigger: 'blur',
     },
   ]
 })
@@ -105,7 +105,7 @@ const changUserForm = () => {
         type: 'success',
       })
       dialogVisible.value = false
-      // getUserData()
+      getUserData()
     }).catch(() => { ElMessage.error('编辑失败') })
   })
 }
@@ -152,13 +152,13 @@ onMounted(() => {
       <el-form-item label="身份证号码">
         <el-input v-model="UserDataForm.cardId" placeholder="请输入身份证号码"></el-input>
       </el-form-item>
-      <el-form-item label="密码">
+      <el-form-item label="密码" prop="password">
         <el-input v-model="UserDataForm.password" placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item label="联系方式">
         <el-input v-model="UserDataForm.phone" placeholder="请输入联系方式"></el-input>
       </el-form-item>
-      <el-form-item label="权限" prop="type">
+      <el-form-item label="权限">
         <el-radio v-model="UserDataForm.type" label="管理员" size="large">管理员</el-radio>
         <el-radio v-model="UserDataForm.type" label="家庭成员" size="large">家庭成员</el-radio>
       </el-form-item>

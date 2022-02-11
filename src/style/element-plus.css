@@ -1,0 +1,30 @@
+.el-main {
+  margin-bottom: 50px;
+  height: 100vh;
+  background-color: #eef0f3;
+}
+.el-header {
+  --el-header-padding: 0 !important;
+}
+.el-table .descending .sort-caret.descending {
+  border-top-color: #d3e4cd !important;
+}
+.el-table .ascending .sort-caret.ascending {
+  border-bottom-color: #d3e4cd !important;
+}
+.el-select-dropdown__item.selected {
+  color: #d3e4cd !important;
+}
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #d3e4cd !important;
+}
+.el-pager li.active {
+  color: #d3e4cd !important;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #d3e4cd !important;
+  background: #d3e4cd !important;
+}
+.el-radio__input.is-checked + .el-radio__label {
+  color: #d3e4cd !important;
+}

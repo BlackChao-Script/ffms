@@ -15,20 +15,19 @@ const recoverUser = (id: string) => em('recoverUser', id)
 
 <template>
   <el-table
-    :default-sort="{ prop: 'createTime', order: 'descending' }"
+    :default-sort="{ prop: 'createTime', order: 'ascending' }"
     :stripe="true"
     :border="false"
     :data="props.UserData"
     v-loading="props.loading"
-    border
     style="width: 100%"
   >
     <el-table-column type="index" />
-    <el-table-column sortable prop="createTime" label="创建用户时间" width="160" />
-    <el-table-column prop="name" label="姓名" width="100" />
-    <el-table-column prop="cardId" label="身份证号码" width="200" />
+    <el-table-column sortable prop="createTime" label="创建用户时间" width="150" />
+    <el-table-column prop="name" label="姓名" width="90" />
+    <el-table-column prop="cardId" label="身份证号码" width="170" />
     <el-table-column prop="birthday" label="出生日期" width="100" />
-    <el-table-column prop="age" label="年龄" width="100" />
+    <el-table-column prop="age" label="年龄" width="60" />
     <el-table-column prop="email" label="电子邮箱" width="200" />
     <el-table-column prop="sex" label="性别" width="80" />
     <el-table-column prop="note" label="身份" width="100" />

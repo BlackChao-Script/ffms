@@ -13,5 +13,5 @@ export interface PageDataType {
 }
 export interface UserDataFormRulesType {
   name: Array<object>
-  type: Array<object>
+  password: Array<object>
 }
