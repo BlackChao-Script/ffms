@@ -4,11 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Dialog: typeof import('./src/components/user/Dialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElCard: typeof import('element-plus/es')['ElCard']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -32,6 +32,7 @@ declare module 'vue' {
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     RegisterForm: typeof import('./src/components/login/RegisterForm.vue')['default']
+    Table: typeof import('./src/components/user/Table.vue')['default']
   }
 }
 

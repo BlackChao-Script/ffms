@@ -1,24 +1,31 @@
 <script setup lang='ts'>
-import { getUserList, cancelAccount, update } from '@/api/user'
 import { onMounted, reactive, ref } from 'vue-demi';
+
 import { ElMessage } from 'element-plus'
 
+import { getUserList, cancelAccount, update } from '@/api/user'
+
+import { PageDataType, UserDataFormRulesType } from '@/types'
+
+import Pagination from '@/common/Pagination.vue'
+import Table from '@/components/user/Table.vue'
+import Dialog from '@/components/user/Dialog.vue'
+
+//!数据
+// 用户表格数据
 const UserData = ref<Array<any>>([])
-const loading = ref<Boolean>(true)
-const pageData = reactive<any>({
+// 加载动画数据
+const loading = ref<Boolean | any>(true)
+// 控制页面分页数据
+const pageData = reactive<PageDataType>({
   pageNum: 1,
   pageSize: 5,
   total: 0
 })
+// 用户表单数据
 const UserDataForm = ref<object | any>({})
-const UserDataFormRules = reactive<any>({
-  id: [
-    {
-      required: true,
-      message: '请输入id',
-      trigger: 'blur',
-    }
-  ],
+// 用户表单数据验证
+const UserDataFormRules = reactive<UserDataFormRulesType>({
   name: [
     {
       required: true,
@@ -34,18 +41,24 @@ const UserDataFormRules = reactive<any>({
     },
   ]
 })
+// 展示对话框数据
 const dialogVisible = ref<Boolean | any>(false)
+// 获取用户表单ref
 const userForm = ref<any>(null)
 
+//! 方法
+//获取用户表格数据
 const getUserData = async () => {
   const res = await getUserList(pageData.pageNum + '', pageData.pageSize + '')
   for (const i of res.data.data) {
     i.createTime = i.createTime.split(' ')[0]
   }
+  console.log(res.data)
   UserData.value = res.data.data
   pageData.total = UserData.value.length
   loading.value = false
 }
+// 改变用户状态
 const cancelAccountUser = async (id: string) => {
   cancelAccount(id + '').then(() => {
     ElMessage({
@@ -55,32 +68,39 @@ const cancelAccountUser = async (id: string) => {
     getUserData()
   }).catch(() => ElMessage.error('操作失败'))
 }
-const handleSizeChange = (val: number) => {
-  pageData.pageSize = val
-  getUserData()
-}
-const handleCurrentChange = (val: number) => {
-  pageData.pageNum = val
-  getUserData()
-}
+// 点击编辑按钮
 const updateUser = (data: any) => {
-  UserDataForm.value = data
   dialogVisible.value = true
+  const { token, createTime, lastModifyTime, ...params } = data
+  UserDataForm.value = params
+  console.log(UserDataForm.value)
 }
+// 完成修改编辑
 const changUserForm = () => {
   userForm.value.validate((valid: boolean) => {
     if (!valid) return
-    update(UserDataForm.value).then(() => {
+    update(
+      UserDataForm.value.id,
+      UserDataForm.value.name,
+      UserDataForm.value.note,
+      UserDataForm.age,
+      UserDataForm.value.sex,
+      UserDataForm.value.cardId,
+      UserDataForm.value.password,
+      UserDataForm.value.phone,
+      UserDataForm.value.type,
+      UserDataForm.value.email,
+      UserDataForm.value.birthday,
+    ).then(() => {
       ElMessage({
         message: '编辑成功',
         type: 'success',
       })
       dialogVisible.value = false
-      getUserData()
+      // getUserData()
     }).catch(() => { ElMessage.error('编辑失败') })
   })
 }
-
 
 onMounted(() => {
   getUserData()
@@ -89,103 +109,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-table
-    :default-sort="{ prop: 'createTime', order: 'descending' }"
-    :stripe="true"
-    :border="false"
-    :data="UserData"
-    v-loading="loading"
-    border
-    style="width: 100%"
-  >
-    <el-table-column type="index" />
-    <el-table-column sortable prop="createTime" label="创建用户时间" width="180" />
-    <el-table-column prop="name" label="Name" width="120" />
-    <el-table-column prop="birthday" label="出生日期" width="100" />
-    <el-table-column prop="email" label="电子邮箱" width="180" />
-    <el-table-column prop="sex" label="性别" width="100" />
-    <el-table-column prop="note" label="身份" width="150" />
-    <el-table-column prop="phone" label="联系方式" width="180" />
-    <el-table-column prop="type" label="权限" />
-    <el-table-column label="状态">
-      <template #default="scope">
-        <el-tag
-          effect="plain"
-          type="success"
-          class="mx-1"
-          size="large"
-          v-if="scope.row.status == 1"
-        >正常</el-tag>
-        <el-tag effect="plain" type="warning" class="mx-1" size="large" v-else>注销</el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template #default="scope">
-        <el-button color="#d3e4cd" style="color: white" @click="updateUser(scope.row)">编辑</el-button>
-        <el-button @click="cancelAccountUser(scope.row.id)" type="warning" style="color: white">注销</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-
-  <el-pagination
-    :page-sizes="[3, 5, 10]"
-    :page-size="pageData.pageSize"
-    layout="sizes, prev, pager, next"
-    :total="pageData.total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  ></el-pagination>
-
-  <el-dialog v-model="dialogVisible" title="编辑" width="30%">
-    <el-form
-      ref="userForm"
-      :model="UserDataForm"
-      :rules="UserDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="编号" prop="id">
-        <el-input v-model="UserDataForm.id" placeholder="请输入家庭成员编号"></el-input>
-      </el-form-item>
-      <el-form-item label="身份">
-        <el-input v-model="UserDataForm.note" placeholder="请输入身份"></el-input>
-      </el-form-item>
-      <el-form-item label="家庭成员名" prop="name">
-        <el-input v-model="UserDataForm.name" placeholder="请输入家庭成员名"></el-input>
-      </el-form-item>
-      <el-form-item label="性别">
-        <el-radio v-model="UserDataForm.sex" label="男" size="large">男</el-radio>
-        <el-radio v-model="UserDataForm.sex" label="女" size="large">女</el-radio>
-      </el-form-item>
-      <el-form-item label="联系方式">
-        <el-input v-model="UserDataForm.phone" placeholder="请输入联系方式"></el-input>
-      </el-form-item>
-      <el-form-item label="权限" prop="type">
-        <el-radio v-model="UserDataForm.type" label="管理员" size="large">管理员</el-radio>
-        <el-radio v-model="UserDataForm.type" label="家庭成员" size="large">家庭成员</el-radio>
-      </el-form-item>
-      <el-form-item label="电子邮箱">
-        <el-input v-model="UserDataForm.email" placeholder="请输入电子邮箱"></el-input>
-      </el-form-item>
-      <el-form-item label="出生日期">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="UserDataForm.birthday"
-          type="date"
-          placeholder="请选择出生日期"
-        ></el-date-picker>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button @click="changUserForm" color="#d3e4cd" type="primary" class="submit-btn">完成修改</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <!-- 数据表格 -->
+  <Table
+    :UserData="UserData"
+    :loading="loading"
+    @updateUser="updateUser"
+    @cancelAccountUser="cancelAccountUser"
+  ></Table>
+  <!-- 分页器 -->
+  <Pagination :pageData="pageData" @getData="getUserData" />
+  <!-- 编辑对话框 -->
+  <Dialog
+    :dialogVisible="dialogVisible"
+    :UserDataForm="UserDataForm"
+    :UserDataFormRules="UserDataFormRules"
+    @changUserForm="changUserForm"
+  ></Dialog>
 </template>
-
-<style scoped lang="less">
-.el-pagination {
-  margin-top: 25px;
-  .fja();
-}
-</style>
