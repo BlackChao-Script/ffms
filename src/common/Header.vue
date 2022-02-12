@@ -19,6 +19,7 @@ const nextLogin = () => {
   router.push('/')
   location.reload()
   window.sessionStorage.removeItem('token')
+  window.sessionStorage.removeItem('path')
 }
 const clickFull = () => {
   if (screenfull.isEnabled) {

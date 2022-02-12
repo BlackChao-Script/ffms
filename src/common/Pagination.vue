@@ -1,10 +1,10 @@
 <script setup lang='ts'>
 
-const { pageData = {} } = defineProps({
-  pageData: Object
+
+const { pageData = {}, } = defineProps({
+  pageData: Object,
 })
 const em = defineEmits(['getData'])
-
 const PageGetUserData = () => em('getData')
 const handleSizeChange = (val: number) => {
   pageData.pageSize = val

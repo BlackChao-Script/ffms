@@ -1,12 +1,8 @@
 <script setup lang='ts'>
 import { onMounted, reactive, ref } from 'vue-demi';
-
 import { ElMessage } from 'element-plus'
-
 import { getUserList, cancelAccount, update, recover } from '@/api/user'
-
 import { PageDataType, UserDataFormRulesType } from '@/types'
-
 import Pagination from '@/common/Pagination.vue'
 import Table from '@/components/user/Table.vue'
 
@@ -52,7 +48,6 @@ const getUserData = async () => {
   for (const i of res.data.data) {
     i.createTime = i.createTime.split(' ')[0]
   }
-  console.log(res.data.data)
   UserData.value = res.data.data
   pageData.total = res.data.totalNumber
   loading.value = false
@@ -60,20 +55,14 @@ const getUserData = async () => {
 // 用户注销
 const cancelAccountUser = (id: string) => {
   cancelAccount(id).then(() => {
-    ElMessage({
-      message: '操作成功',
-      type: 'success',
-    })
+    ElMessage.success('操作成功')
     getUserData()
   }).catch(() => ElMessage.error('操作失败'))
 }
 // 用户恢复
 const recoverUser = (id: string) => {
   recover(id).then(() => {
-    ElMessage({
-      message: '操作成功',
-      type: 'success',
-    })
+    ElMessage.success('操作成功')
     getUserData()
   }).catch(() => ElMessage.error('操作失败'))
 }
@@ -100,10 +89,7 @@ const changUserForm = () => {
       UserDataForm.value.email,
       UserDataForm.value.birthday,
     ).then(() => {
-      ElMessage({
-        message: '编辑成功',
-        type: 'success',
-      })
+      ElMessage.success('编辑成功')
       dialogVisible.value = false
       getUserData()
     }).catch(() => { ElMessage.error('编辑失败') })

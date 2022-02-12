@@ -13,10 +13,7 @@ const handleRegister = () => {
     if (!valid) return
     try {
       userRegister(registerUser.username, registerUser.password, registerUser.type)
-      ElMessage({
-        message: '注册成功',
-        type: 'success',
-      })
+      ElMessage.success('注册成功')
       registerUser.username = ''
       registerUser.password = ''
     } catch (err) {

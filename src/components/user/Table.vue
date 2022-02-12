@@ -22,7 +22,7 @@ const recoverUser = (id: string) => em('recoverUser', id)
     v-loading="props.loading"
     style="width: 100%"
   >
-    <el-table-column type="index" />
+    <el-table-column prop="id" label="id" width="40" />
     <el-table-column sortable prop="createTime" label="创建用户时间" width="150" />
     <el-table-column prop="name" label="姓名" width="90" />
     <el-table-column prop="cardId" label="身份证号码" width="170" />
