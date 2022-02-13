@@ -14,7 +14,11 @@ import Header from '@/common/Header.vue'
       </el-header>
       <!-- 主题 -->
       <el-main>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>

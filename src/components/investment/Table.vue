@@ -105,6 +105,7 @@ defineExpose({
           :default-sort="{ prop: 'investmentTime', order: 'ascending' }"
           :stripe="true"
           :border="false"
+          :loading="loading"
           :data="investmentData"
           style="width: 100%;"
         >
