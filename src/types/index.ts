@@ -15,14 +15,23 @@ export interface UserDataFormRulesType {
   name: Array<object>
   password: Array<object>
 }
-export interface bankAccountDataFormType<T = any> {
-  uid: String | T
-  note: String | T
-  name: string | T
-  password: String | T
-  cardNumber: String | T
-  cardType: String | T
-  accountOpeningTime: String | T
-  accountOpeningAddress: String | T
-  balance: String | T
+export interface bankAccountDataFormType {
+  uid: string
+  note: string
+  name: string
+  password: string
+  cardNumber: string
+  cardType: string
+  accountOpeningTime: string
+  accountOpeningAddress: string
+  balance: string
+}
+export interface addInvestmentDataFormType {
+  uid: string
+  aid: string
+  name: string
+  investmentTime: string
+  type: string
+  amount: string
+  interestRate: string
 }

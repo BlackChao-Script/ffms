@@ -2,12 +2,13 @@
 import { reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { addInvestment } from '@/api/investment'
+import { addInvestmentDataFormType } from '@/types'
 import Table from '@/components/investment/Table.vue'
 
 //! 数据
 // 控制添加对话框数据
 const dialogVisible = ref<Boolean | any>(false)
-let addInvestmentDataForm = reactive<object | any>({
+let addInvestmentDataForm = reactive<addInvestmentDataFormType>({
   uid: '',
   aid: '',
   name: '',
