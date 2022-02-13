@@ -28,3 +28,9 @@
 .el-radio__input.is-checked + .el-radio__label {
   color: #d3e4cd !important;
 }
+.el-pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

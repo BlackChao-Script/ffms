@@ -18,8 +18,8 @@ const handleLogin = () => {
       window.sessionStorage.setItem('token', res.data.data.token)
       window.sessionStorage.setItem('username', res.data.data.name)
       window.sessionStorage.setItem('uid', res.data.data.id)
-      ElMessage.success('登录成功')
       router.push('/home')
+      ElMessage.success('登录成功')
     } catch (err) {
       ElMessage.error('账号或密码错误')
     }

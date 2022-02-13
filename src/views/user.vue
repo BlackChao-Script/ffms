@@ -3,7 +3,6 @@ import { onMounted, reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { getUserList, cancelAccount, update, recover } from '@/api/user'
 import { PageDataType, UserDataFormRulesType } from '@/types'
-import Pagination from '@/common/Pagination.vue'
 import Table from '@/components/user/Table.vue'
 
 //!数据
@@ -95,6 +94,14 @@ const changUserForm = () => {
     }).catch(() => { ElMessage.error('编辑失败') })
   })
 }
+const handleSizeChange = (val: number) => {
+  pageData.pageSize = val
+  getUserData()
+}
+const handleCurrentChange = (val: number) => {
+  pageData.pageNum = val
+  getUserData()
+}
 
 onMounted(() => {
   getUserData()
@@ -112,7 +119,14 @@ onMounted(() => {
     @recoverUser="recoverUser"
   ></Table>
   <!-- 分页器 -->
-  <Pagination :pageData="pageData" @getData="getUserData" />
+  <el-pagination
+    :page-sizes="[3, 5, 10]"
+    :page-size="pageData.pageSize"
+    layout="sizes, prev, pager, next"
+    :total="pageData.total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  ></el-pagination>
   <!-- 编辑对话框 -->
   <el-dialog v-model="dialogVisible" title="编辑" width="30%">
     <el-form

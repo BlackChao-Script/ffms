@@ -115,8 +115,9 @@ const SubUpdataBankAccount = () => {
   })
 }
 
+// 生命周期
 onMounted(() => {
-  bankAccountDataForm.uid = window.sessionStorage.getItem('uid')
+  bankAccountDataForm.uid = window.sessionStorage.getItem('uid') as string
 })
 </script>
 

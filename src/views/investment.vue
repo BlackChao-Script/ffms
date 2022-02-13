@@ -8,6 +8,7 @@ import Table from '@/components/investment/Table.vue'
 //! 数据
 // 控制添加对话框数据
 const dialogVisible = ref<Boolean | any>(false)
+// 添加表单数据
 let addInvestmentDataForm = reactive<addInvestmentDataFormType>({
   uid: '',
   aid: '',
@@ -17,10 +18,15 @@ let addInvestmentDataForm = reactive<addInvestmentDataFormType>({
   amount: '',
   interestRate: ''
 })
+// 表单验证规则
 const bankAccountDataFormRules = reactive<any>({})
+// 添加表单ref
 const addInvestmentDataFormRef = ref<any>(null)
+// Table组件ref
+const TableRef = ref<any>(null)
 
 //! 方法
+// 点击添加按钮
 const clickAddButton = () => {
   dialogVisible.value = true
   addInvestmentDataForm.aid = ''
@@ -29,6 +35,7 @@ const clickAddButton = () => {
   addInvestmentDataForm.amount = ''
   addInvestmentDataForm.interestRate = ''
 }
+// 提交添加表单
 const subAddInvestmentDataForm = () => {
   addInvestmentDataFormRef.value.validate((valid: Boolean) => {
     if (!valid) return
@@ -43,6 +50,7 @@ const subAddInvestmentDataForm = () => {
     ).then(() => {
       ElMessage.success('添加成功')
       dialogVisible.value = false
+      TableRef.value.getInvestmentData()
     }).catch(() => ElMessage.error('添加失败'))
   })
 }
@@ -55,7 +63,7 @@ const subAddInvestmentDataForm = () => {
   <!-- 添加 -->
   <el-button @click="clickAddButton" color="#d3e4cd" style="color: white">添加投资信息</el-button>
   <!-- 表格 -->
-  <Table :addInvestmentDataForm="addInvestmentDataForm"></Table>
+  <Table ref="TableRef" :addInvestmentDataForm="addInvestmentDataForm"></Table>
   <!-- 添加投资信息对话框 -->
   <el-dialog v-model="dialogVisible" title="添加投资信息" width="30%">
     <el-form

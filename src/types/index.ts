@@ -7,9 +7,9 @@ export interface RegisterDateType<T = any> {
   registerRules: object | T
 }
 export interface PageDataType {
-  pageNum: Number
-  pageSize: Number
-  total: Number
+  pageNum: number
+  pageSize: number
+  total: number
 }
 export interface UserDataFormRulesType {
   name: Array<object>

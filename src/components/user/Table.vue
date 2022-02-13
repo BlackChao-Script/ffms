@@ -20,12 +20,11 @@ const recoverUser = (id: string) => em('recoverUser', id)
     :border="false"
     :data="props.UserData"
     v-loading="props.loading"
-    style="width: 100%"
   >
     <el-table-column prop="id" label="id" width="40" />
     <el-table-column sortable prop="createTime" label="创建用户时间" width="150" />
     <el-table-column prop="name" label="姓名" width="90" />
-    <el-table-column prop="cardId" label="身份证号码" width="170" />
+    <el-table-column prop="cardId" label="身份证号码" />
     <el-table-column prop="birthday" label="出生日期" width="100" />
     <el-table-column prop="age" label="年龄" width="60" />
     <el-table-column prop="email" label="电子邮箱" width="200" />
@@ -45,7 +44,7 @@ const recoverUser = (id: string) => em('recoverUser', id)
         <el-tag effect="plain" type="warning" class="mx-1" size="large" v-else>注销</el-tag>
       </template>
     </el-table-column>
-    <el-table-column label="操作">
+    <el-table-column label="操作" width="200px">
       <template #default="scope">
         <el-button color="#d3e4cd" style="color: white" @click="updateUser(scope.row)">编辑</el-button>
         <el-button

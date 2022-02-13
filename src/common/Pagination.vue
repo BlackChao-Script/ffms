@@ -28,8 +28,5 @@ const handleCurrentChange = (val: number) => {
 </template>
 
 <style scoped lang="less">
-.el-pagination {
-  margin-top: 25px;
-  .fja();
-}
+
 </style>
