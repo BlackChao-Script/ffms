@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { reactive, ref } from 'vue-demi';
+import { onMounted, reactive, ref } from 'vue-demi';
 import { findListBankAccount, addBankAccount, updateBankAccount } from '@/api/bankAccount'
 import { ElMessage } from 'element-plus'
 import { PageDataType, bankAccountDataFormType } from '@/types'
@@ -57,11 +57,15 @@ const clickSerch = async (id: any) => {
 }
 // 点击添加按钮
 const clickAddButton = () => {
-  if (bankAccountData.value.length == 0) {
-    ElMessage('请先查询')
-    return
-  }
   dialogVisible.value = true
+  bankAccountDataForm.note = ''
+  bankAccountDataForm.name = ''
+  bankAccountDataForm.password = ''
+  bankAccountDataForm.cardNumber = ''
+  bankAccountDataForm.cardType = ''
+  bankAccountDataForm.accountOpeningTime = ''
+  bankAccountDataForm.accountOpeningAddress = ''
+  bankAccountDataForm.balance = ''
 }
 // 点击完成添加提交表单
 const SubAddBankAccount = () => {
@@ -87,7 +91,6 @@ const SubAddBankAccount = () => {
 const clickUpdateBankAccount = (data: any) => {
   const { createTime, lastModifyTime, version, ...params } = data
   updateBankAccountDataForm.value = params
-  console.log(updateBankAccountDataForm.value)
   updatedialogVisible.value = true
 }
 // 点击完成编辑提交表单
@@ -111,6 +114,10 @@ const SubUpdataBankAccount = () => {
     }).catch(() => ElMessage.error('编辑失败'))
   })
 }
+
+onMounted(() => {
+  bankAccountDataForm.uid = window.sessionStorage.getItem('uid')
+})
 </script>
 
 <template>

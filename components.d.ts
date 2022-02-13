@@ -8,8 +8,11 @@ declare module 'vue' {
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
+    ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
+    ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
@@ -32,7 +35,7 @@ declare module 'vue' {
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     RegisterForm: typeof import('./src/components/login/RegisterForm.vue')['default']
-    Table: typeof import('./src/components/user/Table.vue')['default']
+    Table: typeof import('./src/components/bankAccount/Table.vue')['default']
   }
 }
 
