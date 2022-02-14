@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { reactive } from 'vue-demi';
 import { PageDataType } from '@/types'
-// 分页器数据
+
 const pageData = reactive<PageDataType>({
   pageNum: 1,
   pageSize: 5,

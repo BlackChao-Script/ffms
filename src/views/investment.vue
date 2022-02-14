@@ -3,6 +3,7 @@ import { onMounted, reactive, ref } from 'vue-demi'
 import { ElMessage } from 'element-plus'
 import { addInvestment, getListInvestment, updateInvestment } from '@/api/investment'
 import { addInvestmentDataFormType } from '@/types'
+import AddButton from '@/common/AddButton.vue'
 import Table from '@/components/investment/Table.vue'
 import Pagination from '@/common/Pagination.vue'
 
@@ -112,7 +113,7 @@ onMounted(() => {
 
 <template>
   <!-- 添加 -->
-  <el-button @click="clickAddButton" color="#d3e4cd" style="color: white">添加投资信息</el-button>
+  <AddButton @clickAddButton="clickAddButton"></AddButton>
   <!-- 表格 -->
   <Table
     :investmentData="investmentData"

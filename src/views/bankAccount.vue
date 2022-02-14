@@ -3,6 +3,7 @@ import { onMounted, reactive, ref } from 'vue-demi';
 import { findListBankAccount, addBankAccount, updateBankAccount } from '@/api/bankAccount'
 import { ElMessage } from 'element-plus'
 import { PageDataType, bankAccountDataFormType } from '@/types'
+import AddButton from '@/common/AddButton.vue'
 import Serch from '@/common/Serch.vue'
 import Table from '@/components/bankAccount/Table.vue'
 
@@ -15,8 +16,6 @@ const pageData = reactive<PageDataType>({
   pageSize: 10,
   total: 0
 })
-// 展示添加对话框数据
-const dialogVisible = ref<Boolean | any>(false)
 // 展示修改对话框数据
 const updatedialogVisible = ref<Boolean | any>(false)
 // 添加表单数据
@@ -31,16 +30,18 @@ const bankAccountDataForm = reactive<bankAccountDataFormType>({
   accountOpeningAddress: '',
   balance: ''
 })
+// 添加表单对话框
+const dialogVisible = ref<Boolean | any>(false)
 // 编辑表单数据
 let updateBankAccountDataForm = ref<object | any>({})
 // 表单验证
-const bankAccountDataFormRules = reactive<any>({
-
-})
-// 获取添加表单
+const bankAccountDataFormRules = reactive<any>({})
+// 获取添加表单ref
 const addBankAccountForm = ref<any>(null)
-// 获取编辑表单
+// 获取编辑表单ref
 const updateBankAccountForm = ref<any>(null)
+// 获取添加按钮ref
+const AddButtonRef = ref<any>(null)
 
 //! 方法
 // 点击搜索
@@ -83,7 +84,7 @@ const SubAddBankAccount = () => {
       bankAccountDataForm.balance
     ).then(() => {
       ElMessage.success('添加成功')
-      dialogVisible.value = false
+      AddButtonRef.value.dialogVisible = false
     }).catch(() => ElMessage.error('添加失败'))
   })
 }
@@ -125,8 +126,8 @@ onMounted(() => {
   <div class="serch">
     <!-- 搜索框 -->
     <Serch @clickSerch="clickSerch"></Serch>
-    <!-- 添加 -->
-    <el-button @click="clickAddButton" color="#d3e4cd" style="color: white">添加银行账户</el-button>
+    <!-- 添加按钮 -->
+    <AddButton @clickAddButton="clickAddButton"></AddButton>
   </div>
   <!-- 表格 -->
   <Table :bankAccountData="bankAccountData" @clickUpdateBankAccount="clickUpdateBankAccount"></Table>
@@ -139,9 +140,6 @@ onMounted(() => {
       label-width="100px"
       class="loginForm sign-in-form"
     >
-      <el-form-item label="家庭成员id" prop="name">
-        <el-input disabled v-model="bankAccountDataForm.uid"></el-input>
-      </el-form-item>
       <el-form-item label="类型">
         <el-input v-model="bankAccountDataForm.note" placeholder="请输入类型"></el-input>
       </el-form-item>

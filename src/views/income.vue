@@ -2,6 +2,7 @@
 import { onMounted, reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { addIncome, getListIncome, updateIncome } from '@/api/income'
+import AddButton from '@/common/AddButton.vue'
 import Table from '@/components/income/Table.vue'
 import Pagination from '@/common/Pagination.vue'
 
@@ -120,8 +121,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- 添加 -->
-  <el-button @click="clickAddButton" color="#d3e4cd" style="color: white">添加收入信息</el-button>
+  <!-- 添加按钮 -->
+  <AddButton @clickAddButton="clickAddButton"></AddButton>
   <!-- 表格 -->
   <Table
     :investmentData="investmentData"
