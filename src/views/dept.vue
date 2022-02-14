@@ -5,6 +5,8 @@ import { addListDept, getlistDept, updateListDept } from '@/api/dept'
 import AddButton from '@/common/AddButton.vue'
 import Table from '@/components/dept/Table.vue'
 import Pagination from '@/common/Pagination.vue'
+import AddDialog from '@/components/dept/AddDialog.vue'
+import UpdateDialog from '@/components/dept/UpdateDialog.vue'
 
 //! 数据
 // 控制添加对话框数据
@@ -22,10 +24,6 @@ let addListDepDataForm = reactive<any>({
   borrowingTime: '',
   repaymentTime: ''
 })
-// 添加表单数据验证
-const addListDepDataFormRules = reactive<any>({})
-// 添加表单ref
-const addListDepDataFormRef = ref<any>(null)
 // 表格数据
 const investmentData = ref<Array<any>>([]) as any
 // 家庭成员id
@@ -36,10 +34,12 @@ const updateDialogVisible = ref<Boolean>(false) as any
 const loading = ref<Boolean>(true) as any
 // 更新表单数据
 const updateInvestmentForm = ref<object | any>({})
-// 更新表单验证数据
-const updateInvestmentFormRef = ref<any>(null)
 // 分页器ref
 const PaginationRef = ref<any>(null)
+// 添加对话框ref
+const AddDialogRef = ref<any>(null)
+// 编辑对话框ref
+const UpdateDialogRef = ref<any>(null)
 
 //! 方法
 // 获取表格数据
@@ -61,7 +61,7 @@ const clickUpdateInvestment = (data: any) => {
 }
 // 提交更新表单
 const subUpdateInvestmentForm = () => {
-  updateInvestmentFormRef.value.validate((valid: Boolean) => {
+  UpdateDialogRef.value.updateInvestmentFormRef.validate((valid: Boolean) => {
     if (!valid) return
     updateListDept(
       updateInvestmentForm.value.id,
@@ -97,7 +97,7 @@ const clickAddButton = () => {
 }
 // 提交添加表单
 const subaddListDepDataForm = () => {
-  addListDepDataFormRef.value.validate((valid: Boolean) => {
+  AddDialogRef.value.addListDepDataFormRef.validate((valid: Boolean) => {
     if (!valid) return
     addListDept(
       addListDepDataForm.uid,
@@ -139,122 +139,19 @@ onMounted(() => {
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加债务信息对话框 -->
-  <el-dialog v-model="dialogVisible" title="添加债务信息" width="30%">
-    <el-form
-      ref="addListDepDataFormRef"
-      :model="addListDepDataForm"
-      :rules="addListDepDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="addListDepDataForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="addListDepDataForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="债务名">
-        <el-input v-model="addListDepDataForm.name" placeholder="请输入债务名"></el-input>
-      </el-form-item>
-      <el-form-item label="债权人">
-        <el-input v-model="addListDepDataForm.creditor" placeholder="请输入债权人"></el-input>
-      </el-form-item>
-      <el-form-item label="债权类型">
-        <el-input v-model="addListDepDataForm.type" placeholder="请输入债权类型"></el-input>
-      </el-form-item>
-      <el-form-item label="借债金额">
-        <el-input v-model="addListDepDataForm.borrowingAmount" placeholder="请输入借债金额"></el-input>
-      </el-form-item>
-      <el-form-item label="还款金额">
-        <el-input v-model="addListDepDataForm.repaymentAmount" placeholder="请输入还款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="剩余还款金额">
-        <el-input v-model="addListDepDataForm.endAmount" placeholder="请输入剩余还款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="借款时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="addListDepDataForm.borrowingTime"
-          type="date"
-          placeholder="请选择借款时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="还款时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="addListDepDataForm.repaymentTime"
-          type="date"
-          placeholder="请选择还款时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          @click="subaddListDepDataForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <AddDialog
+    ref="AddDialogRef"
+    :dialogVisible="dialogVisible"
+    :addListDepDataForm="addListDepDataForm"
+    @subaddListDepDataForm="subaddListDepDataForm"
+  ></AddDialog>
   <!-- 编辑债务信息对话框 -->
-  <el-dialog v-model="updateDialogVisible" title="编辑债务信息" width="30%">
-    <el-form
-      ref="updateInvestmentFormRef"
-      :model="updateInvestmentForm"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="updateInvestmentForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="updateInvestmentForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="债务名">
-        <el-input v-model="updateInvestmentForm.name" placeholder="请输入债务名"></el-input>
-      </el-form-item>
-      <el-form-item label="债权人">
-        <el-input v-model="updateInvestmentForm.creditor" placeholder="请输入债权人"></el-input>
-      </el-form-item>
-      <el-form-item label="债权类型">
-        <el-input v-model="updateInvestmentForm.type" placeholder="请输入债权类型"></el-input>
-      </el-form-item>
-      <el-form-item label="借债金额">
-        <el-input v-model="updateInvestmentForm.borrowingAmount" placeholder="请输入借债金额"></el-input>
-      </el-form-item>
-      <el-form-item label="还款金额">
-        <el-input v-model="updateInvestmentForm.repaymentAmount" placeholder="请输入还款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="剩余还款金额">
-        <el-input v-model="updateInvestmentForm.endAmount" placeholder="请输入剩余还款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="借款时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="updateInvestmentForm.borrowingTime"
-          type="date"
-          placeholder="请选择借款时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="还款时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="updateInvestmentForm.repaymentTime"
-          type="date"
-          placeholder="请选择还款时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          @click="subUpdateInvestmentForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <UpdateDialog
+    ref="UpdateDialogRef"
+    :updateDialogVisible="updateDialogVisible"
+    :updateInvestmentForm="updateInvestmentForm"
+    @subUpdateInvestmentForm="subUpdateInvestmentForm"
+  ></UpdateDialog>
 </template>
 
 <style scoped lang="less">

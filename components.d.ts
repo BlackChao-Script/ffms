@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddDialog: typeof import('./src/components/bankAccount/AddDialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -28,14 +29,17 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopconfirm: typeof import('element-plus/es')['ElPopconfirm']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    Loading: typeof import('element-plus/es')['ElLoadingDirective']
     LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     RegisterForm: typeof import('./src/components/login/RegisterForm.vue')['default']
     Table: typeof import('./src/components/bankAccount/Table.vue')['default']
+    UpdateDialog: typeof import('./src/components/bankAccount/UpdateDialog.vue')['default']
   }
 }
 

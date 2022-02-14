@@ -5,6 +5,8 @@ import { addIncome, getListIncome, updateIncome } from '@/api/income'
 import AddButton from '@/common/AddButton.vue'
 import Table from '@/components/income/Table.vue'
 import Pagination from '@/common/Pagination.vue'
+import AddDialog from '@/components/income/AddDialog.vue'
+import UpdateDialog from '@/components/income/UpdateDialog.vue'
 
 //! 数据
 // 控制添加对话框数据
@@ -21,8 +23,6 @@ let addListDepDataForm = reactive<any>({
   type: '',
   commodity: ''
 })
-const bankAccountDataFormRules = reactive<any>({})
-const addListDepDataFormRef = ref<any>(null)
 // 表格数据
 const investmentData = ref<Array<any>>([]) as any
 // 家庭成员id
@@ -33,10 +33,12 @@ const updateDialogVisible = ref<Boolean>(false) as any
 const loading = ref<Boolean>(true) as any
 // 更新表单数据
 const updateInvestmentForm = ref<object | any>({})
-// 更新表单验证数据
-const updateInvestmentFormRef = ref<any>(null)
 // 分页器ref
 const PaginationRef = ref<any>(null)
+// 添加对话框ref
+const AddDialogRef = ref<any>(null)
+// 编辑对话框ref
+const UpdateDialogRef = ref<any>(null)
 
 //! 方法
 // 获取表格数据
@@ -57,7 +59,7 @@ const clickUpdateInvestment = (data: any) => {
 }
 // 提交更新表单
 const subUpdateInvestmentForm = () => {
-  updateInvestmentFormRef.value.validate((valid: Boolean) => {
+  UpdateDialogRef.value.updateInvestmentFormRef.validate((valid: Boolean) => {
     if (!valid) return
     updateIncome(
       updateInvestmentForm.value.id,
@@ -91,7 +93,7 @@ const clickAddButton = () => {
   addListDepDataForm.commodity = ''
 }
 const subaddListDepDataForm = () => {
-  addListDepDataFormRef.value.validate((valid: Boolean) => {
+  AddDialogRef.value.addListDepDataFormRef.validate((valid: Boolean) => {
     if (!valid) return
     addIncome(
       addListDepDataForm.uid,
@@ -128,117 +130,24 @@ onMounted(() => {
     :investmentData="investmentData"
     :loading="loading"
     @getInvestmentData="getInvestmentData"
-    @clickUpdateInvestmen="clickUpdateInvestment"
+    @clickUpdateInvestment="clickUpdateInvestment"
   ></Table>
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加收入信息对话框 -->
-  <el-dialog v-model="dialogVisible" title="添加收入信息" width="30%">
-    <el-form
-      ref="addListDepDataFormRef"
-      :model="addListDepDataForm"
-      :rules="bankAccountDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="addListDepDataForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="addListDepDataForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="收入金额">
-        <el-input v-model="addListDepDataForm.amount" placeholder="请输入收入金额"></el-input>
-      </el-form-item>
-      <el-form-item label="收入地址">
-        <el-input v-model="addListDepDataForm.address" placeholder="请输入收入地址"></el-input>
-      </el-form-item>
-      <el-form-item label="交易机构">
-        <el-input v-model="addListDepDataForm.transactionOrganization" placeholder="请输入交易机构"></el-input>
-      </el-form-item>
-      <el-form-item label="交易单号">
-        <el-input v-model="addListDepDataForm.transactionNumber" placeholder="请输入交易单号"></el-input>
-      </el-form-item>
-      <el-form-item label="商户单号">
-        <el-input v-model="addListDepDataForm.merchantNumber" placeholder="请输入商户单号"></el-input>
-      </el-form-item>
-      <el-form-item label="交易类型">
-        <el-input v-model="addListDepDataForm.type" placeholder="请输入交易类型"></el-input>
-      </el-form-item>
-      <el-form-item label="交易商品">
-        <el-input v-model="addListDepDataForm.commodity" placeholder="请输入交易商品"></el-input>
-      </el-form-item>
-      <el-form-item label="交易时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="addListDepDataForm.transactionHour"
-          type="date"
-          placeholder="请选择交易时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          @click="subaddListDepDataForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <AddDialog
+    ref="AddDialogRef"
+    :dialogVisible="dialogVisible"
+    :addListDepDataForm="addListDepDataForm"
+    @subaddListDepDataForm="subaddListDepDataForm"
+  ></AddDialog>
   <!-- 编辑 -->
-  <el-dialog v-model="updateDialogVisible" title="编辑债务信息" width="30%">
-    <el-form
-      ref="updateInvestmentFormRef"
-      :model="updateInvestmentForm"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="updateInvestmentForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="updateInvestmentForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="收入金额">
-        <el-input v-model="updateInvestmentForm.amount" placeholder="请输入收入金额"></el-input>
-      </el-form-item>
-      <el-form-item label="收入地址">
-        <el-input v-model="updateInvestmentForm.address" placeholder="请输入收入地址"></el-input>
-      </el-form-item>
-      <el-form-item label="交易机构">
-        <el-input v-model="updateInvestmentForm.transactionOrganization" placeholder="请输入交易机构"></el-input>
-      </el-form-item>
-      <el-form-item label="交易单号">
-        <el-input v-model="updateInvestmentForm.transactionNumber" placeholder="请输入交易单号"></el-input>
-      </el-form-item>
-      <el-form-item label="商户单号">
-        <el-input v-model="updateInvestmentForm.merchantNumber" placeholder="请输入商户单号"></el-input>
-      </el-form-item>
-      <el-form-item label="交易类型">
-        <el-input v-model="updateInvestmentForm.type" placeholder="请输入剩余还款金额"></el-input>
-      </el-form-item>
-      <el-form-item label="交易商品">
-        <el-input v-model="updateInvestmentForm.commodity" placeholder="请输入剩余交易商品"></el-input>
-      </el-form-item>
-      <el-form-item label="交易时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="updateInvestmentForm.transactionHour"
-          type="date"
-          placeholder="请选择交易时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          @click="subUpdateInvestmentForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <UpdateDialog
+    ref="UpdateDialogRef"
+    :updateDialogVisible="updateDialogVisible"
+    :updateInvestmentForm="updateInvestmentForm"
+    @subUpdateInvestmentForm="subUpdateInvestmentForm"
+  ></UpdateDialog>
 </template>
 
 <style scoped lang="less">

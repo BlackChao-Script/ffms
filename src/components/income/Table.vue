@@ -10,7 +10,6 @@ const em = defineEmits(['getInvestmentData', 'clickUpdateInvestment'])
 const getInvestmentData = () => em('getInvestmentData')
 const clickUpdateInvestment = (data: any) => em('clickUpdateInvestment', data)
 
-// 删除数据
 const deleteInvestmentData = (id: string): any => {
   deleteIncome(id)
     .then(() => {

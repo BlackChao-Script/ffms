@@ -6,6 +6,8 @@ import { addInvestmentDataFormType } from '@/types'
 import AddButton from '@/common/AddButton.vue'
 import Table from '@/components/investment/Table.vue'
 import Pagination from '@/common/Pagination.vue'
+import AddDialog from '@/components/investment/AddDialog.vue'
+import UpdateDialog from '@/components/investment/UpdateDialog.vue'
 
 //! 数据
 // 表格数据
@@ -18,8 +20,6 @@ const updateDialogVisible = ref<Boolean>(false) as any
 const loading = ref<Boolean>(true) as any
 // 更新表单数据
 const updateInvestmentForm = ref<object | any>({})
-// 更新表单数据验证
-const updateInvestmentFormRef = ref<any>(null)
 // 控制添加对话框数据
 const dialogVisible = ref<Boolean | any>(false)
 // 添加表单数据
@@ -32,12 +32,10 @@ let addInvestmentDataForm = reactive<addInvestmentDataFormType>({
   amount: '',
   interestRate: ''
 })
-// 表单验证规则
-const bankAccountDataFormRules = reactive<any>({})
-// 添加表单ref
-const addInvestmentDataFormRef = ref<any>(null)
 // 分页器ref
 const PaginationRef = ref<any>(null)
+const AddDialogRef = ref<any>(null)
+const UpdateDialogRef = ref<any>(null)
 
 //! 方法
 // 获取表格数据
@@ -56,7 +54,7 @@ const clickUpdateInvestment = (data: any) => {
 }
 // 提交更新表单
 const subUpdateInvestmentForm = () => {
-  updateInvestmentFormRef.value.validate((valid: Boolean) => {
+  UpdateDialogRef.value.updateInvestmentFormRef.validate((valid: Boolean) => {
     if (!valid) return
     updateInvestment(
       updateInvestmentForm.value.id,
@@ -85,7 +83,7 @@ const clickAddButton = () => {
 }
 // 提交添加表单
 const subAddInvestmentDataForm = () => {
-  addInvestmentDataFormRef.value.validate((valid: Boolean) => {
+  AddDialogRef.value.addInvestmentDataFormRef.validate((valid: Boolean) => {
     if (!valid) return
     addInvestment(
       addInvestmentDataForm.uid,
@@ -124,96 +122,19 @@ onMounted(() => {
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加投资信息对话框 -->
-  <el-dialog v-model="dialogVisible" title="添加投资信息" width="30%">
-    <el-form
-      ref="addInvestmentDataFormRef"
-      :model="addInvestmentDataForm"
-      :rules="bankAccountDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="addInvestmentDataForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="addInvestmentDataForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="投资名">
-        <el-input v-model="addInvestmentDataForm.name" placeholder="请输入投资名"></el-input>
-      </el-form-item>
-      <el-form-item label="投资时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="addInvestmentDataForm.investmentTime"
-          type="date"
-          placeholder="请选择投资时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="投资类型">
-        <el-input v-model="addInvestmentDataForm.type" placeholder="请输入投资类型"></el-input>
-      </el-form-item>
-      <el-form-item label="投资金额">
-        <el-input v-model="addInvestmentDataForm.amount" placeholder="请输入投资金额"></el-input>
-      </el-form-item>
-      <el-form-item label="利润">
-        <el-input v-model="addInvestmentDataForm.interestRate" placeholder="请输入利润"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button
-          @click="subAddInvestmentDataForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <AddDialog
+    ref="AddDialogRef"
+    :dialogVisible="dialogVisible"
+    :addInvestmentDataForm="addInvestmentDataForm"
+    @subAddInvestmentDataForm="subAddInvestmentDataForm"
+  ></AddDialog>
   <!--编辑投资信息对话框  -->
-  <el-dialog v-model="updateDialogVisible" title="编辑投资信息" width="30%">
-    <el-form
-      ref="updateInvestmentFormRef"
-      :model="updateInvestmentForm"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员编号">
-        <el-input disabled v-model="updateInvestmentForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户编号">
-        <el-input v-model="updateInvestmentForm.aid" placeholder="请输入银行账户编号"></el-input>
-      </el-form-item>
-      <el-form-item label="投资名">
-        <el-input v-model="updateInvestmentForm.name" placeholder="请输入投资名"></el-input>
-      </el-form-item>
-      <el-form-item label="投资时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="updateInvestmentForm.investmentTime"
-          type="date"
-          placeholder="请选择投资时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="投资类型">
-        <el-input v-model="updateInvestmentForm.type" placeholder="请输入投资类型"></el-input>
-      </el-form-item>
-      <el-form-item label="投资金额">
-        <el-input v-model="updateInvestmentForm.amount" placeholder="请输入投资金额"></el-input>
-      </el-form-item>
-      <el-form-item label="利润">
-        <el-input v-model="updateInvestmentForm.interestRate" placeholder="请输入利润"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button
-          @click="subUpdateInvestmentForm"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <UpdateDialog
+    ref="UpdateDialogRef"
+    :updateDialogVisible="updateDialogVisible"
+    :updateInvestmentForm="updateInvestmentForm"
+    @subUpdateInvestmentForm="subUpdateInvestmentForm"
+  ></UpdateDialog>
 </template>
 
 <style scoped lang="less">

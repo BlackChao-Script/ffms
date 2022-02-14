@@ -6,6 +6,8 @@ import { PageDataType, bankAccountDataFormType } from '@/types'
 import AddButton from '@/common/AddButton.vue'
 import Serch from '@/common/Serch.vue'
 import Table from '@/components/bankAccount/Table.vue'
+import AddDialog from '@/components/bankAccount/AddDialog.vue'
+import UpdateDialog from '@/components/bankAccount/UpdateDialog.vue'
 
 //! 数据
 // 表格数据
@@ -36,12 +38,10 @@ const dialogVisible = ref<Boolean | any>(false)
 let updateBankAccountDataForm = ref<object | any>({})
 // 表单验证
 const bankAccountDataFormRules = reactive<any>({})
-// 获取添加表单ref
-const addBankAccountForm = ref<any>(null)
-// 获取编辑表单ref
-const updateBankAccountForm = ref<any>(null)
-// 获取添加按钮ref
-const AddButtonRef = ref<any>(null)
+// 添加对话框ref
+const AddDialogRef = ref<any>(null)
+// 修改对话框ref
+const UpdateDialogRef = ref<any>(null)
 
 //! 方法
 // 点击搜索
@@ -70,7 +70,7 @@ const clickAddButton = () => {
 }
 // 点击完成添加提交表单
 const SubAddBankAccount = () => {
-  addBankAccountForm.value.validate((valid: Boolean) => {
+  AddDialogRef.value.addBankAccountFormRef.validate((valid: Boolean) => {
     if (!valid) return
     addBankAccount(
       bankAccountDataForm.uid,
@@ -84,7 +84,7 @@ const SubAddBankAccount = () => {
       bankAccountDataForm.balance
     ).then(() => {
       ElMessage.success('添加成功')
-      AddButtonRef.value.dialogVisible = false
+      dialogVisible.value = false
     }).catch(() => ElMessage.error('添加失败'))
   })
 }
@@ -96,7 +96,7 @@ const clickUpdateBankAccount = (data: any) => {
 }
 // 点击完成编辑提交表单
 const SubUpdataBankAccount = () => {
-  updateBankAccountForm.value.validate((valid: Boolean) => {
+  UpdateDialogRef.value.updateBankAccountFormRef.validate((valid: Boolean) => {
     if (!valid) return
     updateBankAccount(
       updateBankAccountDataForm.value.id,
@@ -132,101 +132,19 @@ onMounted(() => {
   <!-- 表格 -->
   <Table :bankAccountData="bankAccountData" @clickUpdateBankAccount="clickUpdateBankAccount"></Table>
   <!-- 添加对话框 -->
-  <el-dialog v-model="dialogVisible" title="添加" width="30%">
-    <el-form
-      ref="addBankAccountForm"
-      :model="bankAccountDataForm"
-      :rules="bankAccountDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="类型">
-        <el-input v-model="bankAccountDataForm.note" placeholder="请输入类型"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户名">
-        <el-input v-model="bankAccountDataForm.name" placeholder="请输入银行账户名"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="bankAccountDataForm.password" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账号">
-        <el-input v-model="bankAccountDataForm.cardNumber" placeholder="请输入银行账号"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户">
-        <el-input v-model="bankAccountDataForm.cardType" placeholder="请输入银行账户"></el-input>
-      </el-form-item>
-      <el-form-item label="开户地址">
-        <el-input v-model="bankAccountDataForm.accountOpeningAddress" placeholder="请输入开户地址"></el-input>
-      </el-form-item>
-      <el-form-item label="开户时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="bankAccountDataForm.accountOpeningTime"
-          type="date"
-          placeholder="请选择开户时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="账户余额">
-        <el-input v-model="bankAccountDataForm.balance" placeholder="请输入账户余额"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button @click="SubAddBankAccount" color="#d3e4cd" type="primary" class="submit-btn">立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <AddDialog
+    ref="AddDialogRef"
+    :dialogVisible="dialogVisible"
+    :bankAccountDataForm="bankAccountDataForm"
+    @SubAddBankAccount="SubAddBankAccount"
+  ></AddDialog>
   <!-- 修改对话框 -->
-  <el-dialog v-model="updatedialogVisible" title="编辑" width="30%">
-    <el-form
-      ref="updateBankAccountForm"
-      :model="updateBankAccountDataForm"
-      :rules="bankAccountDataFormRules"
-      label-width="100px"
-      class="loginForm sign-in-form"
-    >
-      <el-form-item label="家庭成员id" prop="name">
-        <el-input disabled v-model="updateBankAccountDataForm.uid"></el-input>
-      </el-form-item>
-      <el-form-item label="类型">
-        <el-input v-model="updateBankAccountDataForm.note" placeholder="请输入类型"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户名">
-        <el-input v-model="updateBankAccountDataForm.name" placeholder="请输入银行账户名"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="updateBankAccountDataForm.password" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账号">
-        <el-input v-model="updateBankAccountDataForm.cardNumber" placeholder="请输入银行账号"></el-input>
-      </el-form-item>
-      <el-form-item label="银行账户">
-        <el-input v-model="updateBankAccountDataForm.cardType" placeholder="请输入银行账户"></el-input>
-      </el-form-item>
-      <el-form-item label="开户地址">
-        <el-input v-model="updateBankAccountDataForm.accountOpeningAddress" placeholder="请输入开户地址"></el-input>
-      </el-form-item>
-      <el-form-item label="开户时间">
-        <el-date-picker
-          value-format="YYYY-MM-DD"
-          v-model="updateBankAccountDataForm.accountOpeningTime"
-          type="date"
-          placeholder="请选择开户时间"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="账户余额">
-        <el-input v-model="updateBankAccountDataForm.balance" placeholder="请输入账户余额"></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button
-          @click="SubUpdataBankAccount"
-          color="#d3e4cd"
-          type="primary"
-          class="submit-btn"
-        >立即添加</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+  <UpdateDialog
+    ref="UpdateDialogRef"
+    :updatedialogVisible="updatedialogVisible"
+    :updateBankAccountDataForm="updateBankAccountDataForm"
+    @SubUpdataBankAccount="SubUpdataBankAccount"
+  ></UpdateDialog>
 </template>
 
 <style scoped lang="less">
