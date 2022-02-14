@@ -141,7 +141,7 @@ onMounted(() => {
     :addListDepDataForm="addListDepDataForm"
     @subaddListDepDataForm="subaddListDepDataForm"
   ></IncomeAddDialog>
-  <!-- 编辑 -->
+  <!-- 编辑信息对话框 -->
   <IncomeUpdateDialog
     ref="UpdateDialogRef"
     :updateDialogVisible="updateDialogVisible"

@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { deleteIncome } from '@/api/income'
+import { deleteIncome } from '@/api/expenditure'
 import { ElMessage } from 'element-plus'
 
 const { investmentData } = defineProps({
@@ -54,6 +54,7 @@ const deleteInvestmentData = (id: string): any => {
           <el-table-column prop="address" label="交易地址" width="200" />
           <el-table-column prop="uid" label="家庭成员编号" width="130" />
           <el-table-column prop="aid" label="银行账户编号" width="130" />
+          <el-table-column prop="amount" label="金额" width="130" />
           <el-table-column prop="transactionOrganization" label="交易机构" width="130" />
           <el-table-column prop="transactionHour" label="交易时间" width="130" />
           <el-table-column prop="transactionNumber" label="交易单号" width="150" />
