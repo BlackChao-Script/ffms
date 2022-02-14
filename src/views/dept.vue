@@ -21,6 +21,7 @@ let addListDepDataForm = reactive<any>({
 })
 const bankAccountDataFormRules = reactive<any>({})
 const addListDepDataFormRef = ref<any>(null)
+const TableRef = ref<any>(null)
 
 //! 方法
 const clickAddButton = () => {
@@ -52,6 +53,7 @@ const subaddListDepDataForm = () => {
     ).then(() => {
       ElMessage.success('添加成功')
       dialogVisible.value = false
+      TableRef.value.getInvestmentData()
     }).catch(() => ElMessage.error('添加失败'))
   })
 }
@@ -62,7 +64,7 @@ const subaddListDepDataForm = () => {
   <!-- 添加 -->
   <el-button @click="clickAddButton" color="#d3e4cd" style="color: white">添加债务信息</el-button>
   <!-- 表格 -->
-  <Table :addListDepDataForm="addListDepDataForm"></Table>
+  <Table ref="TableRef" :addListDepDataForm="addListDepDataForm"></Table>
   <!-- 添加添加债务信息对话框 -->
   <el-dialog v-model="dialogVisible" title="添加债务信息" width="30%">
     <el-form

@@ -71,6 +71,7 @@ onMounted(() => {
           :index="'/home' + subItem.path"
           v-for="subItem in item.children"
           :key="subItem.id"
+          @click="saveNavState('/home' + subItem.path)"
         >
           <template #title>
             <span>{{ subItem.authName }}</span>
