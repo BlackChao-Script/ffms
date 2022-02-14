@@ -3,10 +3,10 @@ import { onMounted, reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { addIncome, getListIncome, updateIncome } from '@/api/income'
 import AddButton from '@/common/AddButton.vue'
-import Table from '@/components/income/Table.vue'
+import IncomeTable from '@/components/income/IncomeTable.vue'
 import Pagination from '@/common/Pagination.vue'
-import AddDialog from '@/components/income/AddDialog.vue'
-import UpdateDialog from '@/components/income/UpdateDialog.vue'
+import IncomeAddDialog from '@/components/income/IncomeAddDialog.vue'
+import IncomeUpdateDialog from '@/components/income/IncomeUpdateDialog.vue'
 
 //! 数据
 // 控制添加对话框数据
@@ -126,28 +126,28 @@ onMounted(() => {
   <!-- 添加按钮 -->
   <AddButton @clickAddButton="clickAddButton"></AddButton>
   <!-- 表格 -->
-  <Table
+  <IncomeTable
     :investmentData="investmentData"
     :loading="loading"
     @getInvestmentData="getInvestmentData"
     @clickUpdateInvestment="clickUpdateInvestment"
-  ></Table>
+  ></IncomeTable>
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加收入信息对话框 -->
-  <AddDialog
+  <IncomeAddDialog
     ref="AddDialogRef"
     :dialogVisible="dialogVisible"
     :addListDepDataForm="addListDepDataForm"
     @subaddListDepDataForm="subaddListDepDataForm"
-  ></AddDialog>
+  ></IncomeAddDialog>
   <!-- 编辑 -->
-  <UpdateDialog
+  <IncomeUpdateDialog
     ref="UpdateDialogRef"
     :updateDialogVisible="updateDialogVisible"
     :updateInvestmentForm="updateInvestmentForm"
     @subUpdateInvestmentForm="subUpdateInvestmentForm"
-  ></UpdateDialog>
+  ></IncomeUpdateDialog>
 </template>
 
 <style scoped lang="less">

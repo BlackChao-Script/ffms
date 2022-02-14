@@ -4,10 +4,10 @@ import { ElMessage } from 'element-plus'
 import { addInvestment, getListInvestment, updateInvestment } from '@/api/investment'
 import { addInvestmentDataFormType } from '@/types'
 import AddButton from '@/common/AddButton.vue'
-import Table from '@/components/investment/Table.vue'
+import InvestmentTable from '@/components/investment/InvestmentTable.vue'
 import Pagination from '@/common/Pagination.vue'
-import AddDialog from '@/components/investment/AddDialog.vue'
-import UpdateDialog from '@/components/investment/UpdateDialog.vue'
+import InvestmentAddDialog from '@/components/investment/InvestmentAddDialog.vue'
+import InvestmentUpdateDialog from '@/components/investment/InvestmentUpdateDialog.vue'
 
 //! 数据
 // 表格数据
@@ -113,28 +113,28 @@ onMounted(() => {
   <!-- 添加 -->
   <AddButton @clickAddButton="clickAddButton"></AddButton>
   <!-- 表格 -->
-  <Table
+  <InvestmentTable
     :investmentData="investmentData"
     :loading="loading"
     @getInvestmentData="getInvestmentData"
     @clickUpdateInvestment="clickUpdateInvestment"
-  ></Table>
+  ></InvestmentTable>
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加投资信息对话框 -->
-  <AddDialog
+  <InvestmentAddDialog
     ref="AddDialogRef"
     :dialogVisible="dialogVisible"
     :addInvestmentDataForm="addInvestmentDataForm"
     @subAddInvestmentDataForm="subAddInvestmentDataForm"
-  ></AddDialog>
+  ></InvestmentAddDialog>
   <!--编辑投资信息对话框  -->
-  <UpdateDialog
+  <InvestmentUpdateDialog
     ref="UpdateDialogRef"
     :updateDialogVisible="updateDialogVisible"
     :updateInvestmentForm="updateInvestmentForm"
     @subUpdateInvestmentForm="subUpdateInvestmentForm"
-  ></UpdateDialog>
+  ></InvestmentUpdateDialog>
 </template>
 
 <style scoped lang="less">

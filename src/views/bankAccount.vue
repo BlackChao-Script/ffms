@@ -5,9 +5,9 @@ import { ElMessage } from 'element-plus'
 import { PageDataType, bankAccountDataFormType } from '@/types'
 import AddButton from '@/common/AddButton.vue'
 import Serch from '@/common/Serch.vue'
-import Table from '@/components/bankAccount/Table.vue'
-import AddDialog from '@/components/bankAccount/AddDialog.vue'
-import UpdateDialog from '@/components/bankAccount/UpdateDialog.vue'
+import BankAccountTable from '@/components/bankAccount/BankAccountTable.vue'
+import BankAccountAddDialog from '@/components/bankAccount/BankAccountAddDialog.vue'
+import BankAccountUpdateDialog from '@/components/bankAccount/BankAccountUpdateDialog.vue'
 
 //! 数据
 // 表格数据
@@ -36,8 +36,6 @@ const bankAccountDataForm = reactive<bankAccountDataFormType>({
 const dialogVisible = ref<Boolean | any>(false)
 // 编辑表单数据
 let updateBankAccountDataForm = ref<object | any>({})
-// 表单验证
-const bankAccountDataFormRules = reactive<any>({})
 // 添加对话框ref
 const AddDialogRef = ref<any>(null)
 // 修改对话框ref
@@ -130,21 +128,24 @@ onMounted(() => {
     <AddButton @clickAddButton="clickAddButton"></AddButton>
   </div>
   <!-- 表格 -->
-  <Table :bankAccountData="bankAccountData" @clickUpdateBankAccount="clickUpdateBankAccount"></Table>
+  <BankAccountTable
+    :bankAccountData="bankAccountData"
+    @clickUpdateBankAccount="clickUpdateBankAccount"
+  ></BankAccountTable>
   <!-- 添加对话框 -->
-  <AddDialog
+  <BankAccountAddDialog
     ref="AddDialogRef"
     :dialogVisible="dialogVisible"
     :bankAccountDataForm="bankAccountDataForm"
     @SubAddBankAccount="SubAddBankAccount"
-  ></AddDialog>
+  ></BankAccountAddDialog>
   <!-- 修改对话框 -->
-  <UpdateDialog
+  <BankAccountUpdateDialog
     ref="UpdateDialogRef"
     :updatedialogVisible="updatedialogVisible"
     :updateBankAccountDataForm="updateBankAccountDataForm"
     @SubUpdataBankAccount="SubUpdataBankAccount"
-  ></UpdateDialog>
+  ></BankAccountUpdateDialog>
 </template>
 
 <style scoped lang="less">

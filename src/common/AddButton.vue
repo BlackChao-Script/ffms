@@ -1,9 +1,6 @@
 <script setup lang='ts'>
-
 const em = defineEmits(['clickAddButton'])
 const clickAddButton = () => em('clickAddButton')
-
-
 </script>
 
 <template>

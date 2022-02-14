@@ -3,10 +3,10 @@ import { reactive, ref, onMounted } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { addListDept, getlistDept, updateListDept } from '@/api/dept'
 import AddButton from '@/common/AddButton.vue'
-import Table from '@/components/dept/Table.vue'
+import DeptTable from '@/components/dept/DeptTable.vue'
 import Pagination from '@/common/Pagination.vue'
-import AddDialog from '@/components/dept/AddDialog.vue'
-import UpdateDialog from '@/components/dept/UpdateDialog.vue'
+import DeptAddDialog from '@/components/dept/DeptAddDialog.vue'
+import DeptUpdateDialog from '@/components/dept/DeptUpdateDialog.vue'
 
 //! 数据
 // 控制添加对话框数据
@@ -130,28 +130,28 @@ onMounted(() => {
   <!-- 添加按钮 -->
   <AddButton @clickAddButton="clickAddButton"></AddButton>
   <!-- 表格 -->
-  <Table
+  <DeptTable
     :investmentData="investmentData"
     :loading="loading"
     @clickUpdateInvestment="clickUpdateInvestment"
     @getInvestmentData="getInvestmentData"
-  ></Table>
+  ></DeptTable>
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getData="getInvestmentData"></Pagination>
   <!-- 添加债务信息对话框 -->
-  <AddDialog
+  <DeptAddDialog
     ref="AddDialogRef"
     :dialogVisible="dialogVisible"
     :addListDepDataForm="addListDepDataForm"
     @subaddListDepDataForm="subaddListDepDataForm"
-  ></AddDialog>
+  ></DeptAddDialog>
   <!-- 编辑债务信息对话框 -->
-  <UpdateDialog
+  <DeptUpdateDialog
     ref="UpdateDialogRef"
     :updateDialogVisible="updateDialogVisible"
     :updateInvestmentForm="updateInvestmentForm"
     @subUpdateInvestmentForm="subUpdateInvestmentForm"
-  ></UpdateDialog>
+  ></DeptUpdateDialog>
 </template>
 
 <style scoped lang="less">

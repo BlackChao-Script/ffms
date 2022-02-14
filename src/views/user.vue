@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { getUserList, cancelAccount, update, recover } from '@/api/user'
 import { UserDataFormRulesType } from '@/types'
-import Table from '@/components/user/Table.vue'
+import UserTable from '@/components/user/UserTable.vue'
 import Pagination from '@/common/Pagination.vue'
 
 //!数据
@@ -100,13 +100,13 @@ onMounted(() => {
 
 <template>
   <!-- 数据表格 -->
-  <Table
+  <UserTable
     :UserData="UserData"
     :loading="loading"
     @updateUser="updateUser"
     @cancelAccountUser="cancelAccountUser"
     @recoverUser="recoverUser"
-  ></Table>
+  ></UserTable>
   <!-- 分页器 -->
   <Pagination ref="PaginationRef" @getdata="getUserData"></Pagination>
   <!-- 编辑对话框 -->

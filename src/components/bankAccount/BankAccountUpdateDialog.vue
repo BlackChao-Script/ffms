@@ -6,20 +6,20 @@ const { updatedialogVisible, updateBankAccountDataForm = {} } = defineProps({
   updateBankAccountDataForm: Object
 })
 const em = defineEmits(['SubUpdataBankAccount'])
-
-const updateBankAccountFormRef = ref<any>(null)
+// 获取添加表单ref
+const addBankAccountFormRef = ref<any>(null)
 
 const SubUpdataBankAccount = () => em('SubUpdataBankAccount')
 
 defineExpose({
-  updateBankAccountFormRef
+  addBankAccountFormRef
 })
 </script>
 
 <template>
   <el-dialog v-model="updatedialogVisible" title="编辑" width="30%">
     <el-form
-      ref="updateBankAccountFormRef"
+      ref="updateBankAccountForm"
       :model="updateBankAccountDataForm"
       label-width="100px"
       class="loginForm sign-in-form"

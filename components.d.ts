@@ -4,7 +4,12 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AddDialog: typeof import('./src/components/bankAccount/AddDialog.vue')['default']
+    BankAccountAddDialog: typeof import('./src/components/bankAccount/BankAccountAddDialog.vue')['default']
+    BankAccountTable: typeof import('./src/components/bankAccount/BankAccountTable.vue')['default']
+    BankAccountUpdateDialog: typeof import('./src/components/bankAccount/BankAccountUpdateDialog.vue')['default']
+    DeptAddDialog: typeof import('./src/components/dept/DeptAddDialog.vue')['default']
+    DeptTable: typeof import('./src/components/dept/DeptTable.vue')['default']
+    DeptUpdateDialog: typeof import('./src/components/dept/DeptUpdateDialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -35,11 +40,16 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    IncomeAddDialog: typeof import('./src/components/income/IncomeAddDialog.vue')['default']
+    IncomeTable: typeof import('./src/components/income/IncomeTable.vue')['default']
+    IncomeUpdateDialog: typeof import('./src/components/income/IncomeUpdateDialog.vue')['default']
+    InvestmentAddDialog: typeof import('./src/components/investment/InvestmentAddDialog.vue')['default']
+    InvestmentTable: typeof import('./src/components/investment/InvestmentTable.vue')['default']
+    InvestmentUpdateDialog: typeof import('./src/components/investment/InvestmentUpdateDialog.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
     LoginForm: typeof import('./src/components/login/LoginForm.vue')['default']
     RegisterForm: typeof import('./src/components/login/RegisterForm.vue')['default']
-    Table: typeof import('./src/components/bankAccount/Table.vue')['default']
-    UpdateDialog: typeof import('./src/components/bankAccount/UpdateDialog.vue')['default']
+    UserTable: typeof import('./src/components/user/UserTable.vue')['default']
   }
 }
 
