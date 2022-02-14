@@ -2,20 +2,15 @@
 import { onMounted, reactive, ref } from 'vue-demi';
 import { ElMessage } from 'element-plus'
 import { getUserList, cancelAccount, update, recover } from '@/api/user'
-import { PageDataType, UserDataFormRulesType } from '@/types'
+import { UserDataFormRulesType } from '@/types'
 import Table from '@/components/user/Table.vue'
+import Pagination from '@/common/Pagination.vue'
 
 //!数据
 // 用户表格数据
 const UserData = ref<Array<any>>([])
 // 加载动画数据
 const loading = ref<Boolean | any>(true)
-// 控制页面分页数据
-const pageData = reactive<PageDataType>({
-  pageNum: 1,
-  pageSize: 5,
-  total: 0
-})
 // 用户表单数据
 const UserDataForm = ref<object | any>({})
 // 用户表单数据验证
@@ -39,16 +34,18 @@ const UserDataFormRules = reactive<UserDataFormRulesType>({
 const dialogVisible = ref<Boolean | any>(false)
 // 获取用户表单ref
 const userForm = ref<any>(null)
+// 分页器ref
+const PaginationRef = ref<any>(null)
 
 //! 方法
 //获取用户表格数据
 const getUserData = async () => {
-  const res = await getUserList(pageData.pageNum + '', pageData.pageSize + '')
+  const res = await getUserList(PaginationRef.value.pageData.pageNum + '', PaginationRef.value.pageData.pageSize + '')
   for (const i of res.data.data) {
     i.createTime = i.createTime.split(' ')[0]
   }
   UserData.value = res.data.data
-  pageData.total = res.data.totalNumber
+  PaginationRef.value.pageData.total = res.data.totalNumber
   loading.value = false
 }
 // 用户注销
@@ -94,14 +91,6 @@ const changUserForm = () => {
     }).catch(() => { ElMessage.error('编辑失败') })
   })
 }
-const handleSizeChange = (val: number) => {
-  pageData.pageSize = val
-  getUserData()
-}
-const handleCurrentChange = (val: number) => {
-  pageData.pageNum = val
-  getUserData()
-}
 
 onMounted(() => {
   getUserData()
@@ -119,14 +108,7 @@ onMounted(() => {
     @recoverUser="recoverUser"
   ></Table>
   <!-- 分页器 -->
-  <el-pagination
-    :page-sizes="[3, 5, 10]"
-    :page-size="pageData.pageSize"
-    layout="sizes, prev, pager, next"
-    :total="pageData.total"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  ></el-pagination>
+  <Pagination ref="PaginationRef" @getdata="getUserData"></Pagination>
   <!-- 编辑对话框 -->
   <el-dialog v-model="dialogVisible" title="编辑" width="30%">
     <el-form
