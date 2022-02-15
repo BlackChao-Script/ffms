@@ -1,12 +1,11 @@
 <script setup lang='ts'>
-import { onMounted, reactive, ref } from 'vue-demi'
+import { onMounted, ref } from 'vue-demi'
 import echarts from '@/utils/echarts'
-import { listMonthlyStatistics } from '@/api/monthlyStatistics'
+import { listMonthlyStatistics, statisticsData } from '@/api/monthlyStatistics'
 
-const monthlyData = reactive<any>({
-  monthlyExpensesData: '',
-  monthlyIncomeData: ''
-})
+const xAxisData = ref<Array<any>>([])
+const monthlyExpensesData = ref<Array<any>>([])
+const monthlyIncomeData = ref<Array<any>>([])
 const id = ref<string | any>('')
 const myChartref = ref<any>(null)
 let chartsInit: any
@@ -19,7 +18,7 @@ const barOption = {
     data: ['收入', '支出']
   },
   xAxis: {
-    data: ['本月']
+    data: []
   },
   yAxis: {},
   series: [
@@ -47,14 +46,20 @@ let option = barOption
 
 const getListMonthlyStatistics = async () => {
   const res = await listMonthlyStatistics(id.value)
-  monthlyData.monthlyExpensesData = res.data.data[0].monthlyExpenses
-  monthlyData.monthlyIncomeData = res.data.data[0].monthlyIncome
+  res.data.data.forEach((data: any) => {
+    xAxisData.value.push(data.note + '月')
+    monthlyExpensesData.value.push(data.monthlyExpenses)
+    monthlyIncomeData.value.push(data.monthlyIncome)
+  })
   chartsInit.setOption({
+    xAxis: {
+      data: xAxisData.value
+    },
     series: [
       {
         name: '收入',
         type: 'bar',
-        data: [monthlyData.monthlyIncomeData],
+        data: monthlyIncomeData.value,
         label: {
           show: true,
           position: 'top'
@@ -63,7 +68,7 @@ const getListMonthlyStatistics = async () => {
       {
         name: '支出',
         type: 'bar',
-        data: [monthlyData.monthlyExpensesData],
+        data: monthlyExpensesData.value,
         label: {
           show: true,
           position: 'top'

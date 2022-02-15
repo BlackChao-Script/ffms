@@ -6,7 +6,7 @@ export const listMonthlyStatistics = (id: string) => {
     params: {
       id,
       pageNum: '1',
-      pageSize: '1',
+      pageSize: '12',
     },
   })
 }

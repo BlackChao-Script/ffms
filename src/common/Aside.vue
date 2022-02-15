@@ -18,6 +18,7 @@ const getMenu = async () => {
       menuListChildren.value.push(i)
     }
   }
+  menuListChildren.value[1].authName = menuListChildren.value[1].authName.replace('年', '')
 }
 const saveNavState = (path: string) => {
   window.sessionStorage.setItem('path', path)

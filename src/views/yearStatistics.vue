@@ -1,12 +1,11 @@
 <script setup lang='ts'>
-import { onMounted, reactive, ref } from 'vue-demi'
+import { onMounted, ref } from 'vue-demi'
 import echarts from '@/utils/echarts'
-import { listYearStatistics } from '@/api/YearStatistics'
+import { listYearStatistics, statisticsData } from '@/api/YearStatistics'
 
-const YearStatisticsData = reactive<any>({
-  yearExpensesData: '',
-  yearIncomeData: ''
-})
+const xAxisData = ref<Array<any>>([])
+const yearExpensesData = ref<Array<any>>([])
+const yearIncomeData = ref<Array<any>>([])
 const id = ref<string | any>('')
 const myChartref = ref<any>(null)
 let chartsInit: any
@@ -19,7 +18,7 @@ const barOption = {
     data: ['收入', '支出']
   },
   xAxis: {
-    data: ['今年']
+    data: []
   },
   yAxis: {},
   series: [
@@ -47,14 +46,20 @@ let option = barOption
 
 const getListYearStatistics = async () => {
   const res = await listYearStatistics(id.value)
-  YearStatisticsData.yearExpensesData = res.data.data[0].yearExpenses
-  YearStatisticsData.yearIncomeData = res.data.data[0].yearIncome
+  res.data.data.forEach((data: any) => {
+    xAxisData.value.push(data.note + '年')
+    yearExpensesData.value.push(data.yearExpenses)
+    yearIncomeData.value.push(data.yearIncome)
+  })
   chartsInit.setOption({
+    xAxis: {
+      data: xAxisData.value
+    },
     series: [
       {
         name: '收入',
         type: 'bar',
-        data: [YearStatisticsData.yearIncomeData],
+        data: yearIncomeData.value,
         label: {
           show: true,
           position: 'top'
@@ -63,7 +68,7 @@ const getListYearStatistics = async () => {
       {
         name: '支出',
         type: 'bar',
-        data: [YearStatisticsData.yearExpensesData],
+        data: yearExpensesData.value,
         label: {
           show: true,
           position: 'top'
@@ -79,7 +84,7 @@ onMounted(() => {
   id.value = window.sessionStorage.getItem('uid')
   getListYearStatistics()
 })
-</script>
+                                        </script>
 
 <template>
   <div id="charts_box" ref="myChartref"></div>

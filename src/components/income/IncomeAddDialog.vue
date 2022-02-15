@@ -31,10 +31,10 @@ defineExpose({
       <el-form-item label="银行账户编号">
         <el-input v-model="addListDepDataForm.aid" placeholder="请输入银行账户编号"></el-input>
       </el-form-item>
-      <el-form-item label="收入金额">
+      <el-form-item label="金额">
         <el-input v-model="addListDepDataForm.amount" placeholder="请输入收入金额"></el-input>
       </el-form-item>
-      <el-form-item label="收入地址">
+      <el-form-item label="地址">
         <el-input v-model="addListDepDataForm.address" placeholder="请输入收入地址"></el-input>
       </el-form-item>
       <el-form-item label="交易机构">
