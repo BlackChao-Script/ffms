@@ -88,7 +88,7 @@ onMounted(() => {
   height: 100vh;
   background-color: @primary;
   .el-menu {
-    height: 100%;
+    height: 90%;
     border-right: 0 !important;
   }
   .aside_heard {
