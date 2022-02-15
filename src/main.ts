@@ -7,7 +7,7 @@ import '@/style/base.css'
 
 const app = createApp(App)
 for (const iconName in ELIcons) {
-  app.component(iconName, ELIcons[iconName])
+  app.component(iconName, (ELIcons as any)[iconName])
 }
 app.use(router)
 app.use(createPinia())
