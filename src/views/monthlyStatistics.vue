@@ -77,12 +77,16 @@ const getListMonthlyStatistics = async () => {
     ]
   })
 }
+const getStatisticsData = async () => {
+  await statisticsData()
+}
 
 onMounted(() => {
   chartsInit = echarts.init(myChartref.value)
   chartsInit.setOption(option, true)
   id.value = window.sessionStorage.getItem('uid')
   getListMonthlyStatistics()
+  getStatisticsData()
 })
 </script>
 
