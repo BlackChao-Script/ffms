@@ -23,7 +23,8 @@ ffms = Spring Boot后端(朋友设计) + Vue前端
 > - Less
 >   
 > - Axios
->   
+> 
+> - Echarts
 
 ## 启动
 
